@@ -1,4 +1,9 @@
 .Canvas {
   text-align: center;
+  border:double 3px #282c34;
+  min-height: 95vh;
+  width: calc(100% - 100px);
+  float: left;
+  background-color:white;
 }
 

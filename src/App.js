@@ -7,7 +7,12 @@ class App extends Component {
     return (
       <div className="App">
         <header className="App-header">
-          Block Diagram Editor
+          <div>
+          <svg width="44" height="18">
+            <rect x="12" y="1" width="22" height="16" stroke="white" fill="transparent" strokeWidth="3" />
+          </svg>
+          <b>Block Diagram Editor</b>
+          </div>
         </header>
         <Editor />
       </div>

@@ -7,12 +7,8 @@ class Editor extends Component {
   render() {
     return (
       <div className="Editor">
-        <div>
         <Toolbar />
-        </div>
-        <div>
         <Canvas />
-        </div>
       </div>
     );
   }
