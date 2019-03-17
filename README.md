@@ -17,3 +17,16 @@ Run
 npm start
 ```
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+
+Docker build
+```
+docker build --tag block-diagram-editor-image .
+docker run --name block-diagram-editor -p 3000:3000 -d block-diagram-editor-image
+```
+
+Docker cleanup
+```
+docker stop block-diagram-editor
+docker rm block-diagram-editor
+docker rmi block-diagram-editor-image
+```
