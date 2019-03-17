@@ -22,15 +22,28 @@ var diagram = {
     blockHeight: 60 
 };
 
-diagram.blocks.push(new Rectangle(40,110));
-diagram.blocks.push(new Rectangle(220,40));
-diagram.blocks.push(new Rectangle(380,140));
-
 function update(e) {
 
     if (e.eventType === "block") {
         if (e.index >= 0 && e.index < diagram.blocks.length) {
             diagram.blocks.splice(e.index,1);
+
+            // fixup connectors
+            var newConnectors = [];
+            for (var i = 0; i < diagram.connectors.length; i++) {
+                if (diagram.connectors[i].i1 !== e.index && diagram.connectors[i].i2 !== e.index) {
+                    var i1 = diagram.connectors[i].i1;
+                    var i2 = diagram.connectors[i].i2;
+                    if (i1 > e.index) {
+                        i1 -= 1;
+                    }
+                    if (i2 > e.index) {
+                        i2 -= 1;
+                    }
+                    newConnectors.push(new Connector(i1, i2));
+                }
+            }
+            diagram.connectors = newConnectors;
         }
 
     } else if (e.eventType === "canvas") {
