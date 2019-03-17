@@ -4,11 +4,25 @@ import Toolbar from './Toolbar';
 import Canvas from './Canvas';
 
 class Editor extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      selected: ""
+    };
+  }
+
+  update = (selected) => {
+    this.setState({
+      selected: selected
+    });        
+    this.refs.canvas.setTool(selected)
+  }
+
   render() {
     return (
       <div className="Editor">
-        <Toolbar />
-        <Canvas diagram={this.props.diagram} update={this.props.update} />
+        <Toolbar update={this.update} />
+        <Canvas ref="canvas" diagram={this.props.diagram} update={this.props.update} />
       </div>
     );
   }
