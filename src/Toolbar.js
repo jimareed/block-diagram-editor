@@ -46,13 +46,13 @@ class Toolbar extends Component {
   render() {
     return (
       <div className="Toolbar">
-        <div class="btn-group" width="100%">
+        <div className="btn-group" width="100%">
           <button onClick={() => { this.handleClick("block"); }}>
             {this.renderBlockButton()}
           </button>
         </div>
         <p />
-        <div class="btn-group" width="100%">
+        <div className="btn-group" width="100%">
           <button onClick={() => { this.handleClick("arrow"); }}>
             {this.renderArrowButton()}
           </button>

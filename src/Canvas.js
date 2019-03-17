@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './Canvas.css';
-
+import Arrow from './Arrow';
 
 function getMousePosition(pageX, pageY) {
 
@@ -67,13 +67,17 @@ class Canvas extends Component {
   }
 
   renderConnector(connector) {
+    var p1 = {
+      x: this.props.diagram.blocks[connector.i1].x,
+      y: this.props.diagram.blocks[connector.i1].y
+    };
+    var p2 = {
+      x: this.props.diagram.blocks[connector.i2].x,
+      y: this.props.diagram.blocks[connector.i2].y
+    };
+
     return (
-      <line 
-              x1={this.props.diagram.blocks[connector.i1].x + this.props.diagram.blockWidth /2 } 
-              y1={this.props.diagram.blocks[connector.i1].y + (this.props.diagram.blockHeight / 2)}
-              x2={this.props.diagram.blocks[connector.i2].x + this.props.diagram.blockWidth /2 }
-              y2={this.props.diagram.blocks[connector.i2].y + this.props.diagram.blockHeight / 2}
-              stroke="black" strokeWidth="4" />
+      <Arrow p1={p1} p2={p2} blockWidth={this.props.diagram.blockWidth} blockHeight={this.props.diagram.blockHeight} />
     )
   };
 
@@ -131,9 +135,9 @@ class Canvas extends Component {
           } 
           {
             this.props.diagram.blocks.length === 0 && <>
-            <text x="50%" y="40vh" stroke="lightgrey" textAnchor="middle" fill="lightgrey" fontWeight="2" fontSize="20">click on the canvas to add a block</text>
-            <text x="50%" y="46vh" stroke="lightgrey" textAnchor="middle" fill="lightgrey" fontWeight="5" fontSize="20">click on a block to delete it</text>
-            <text x="50%" y="52vh" stroke="lightgrey" textAnchor="middle" fill="lightgrey" fontWeight="5" fontSize="20">use arrows to connect blocks</text>
+            <text x="50%" y="40vh" stroke="lightgrey" textAnchor="middle" fill="lightgrey" fontWeight="2" fontSize="20" onClick={ this.handleCanvasClick } >click on the canvas to add a block</text>
+            <text x="50%" y="46vh" stroke="lightgrey" textAnchor="middle" fill="lightgrey" fontWeight="5" fontSize="20" onClick={ this.handleCanvasClick } >click on a block to delete it</text>
+            <text x="50%" y="52vh" stroke="lightgrey" textAnchor="middle" fill="lightgrey" fontWeight="5" fontSize="20" onClick={ this.handleCanvasClick } >use arrows to connect blocks</text>
           </>} 
           </svg>
       </div>
