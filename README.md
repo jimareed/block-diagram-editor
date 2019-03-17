@@ -3,7 +3,7 @@
 Hobby project to learn react.  A block diagram editor that lets you add blocks and join them with arrows.  Click on the canvas to add a block.  Click on the block to delete it.  Use arrows to connect the blocks.  Still under development (haven't added arrow tips yet).
 
 <p  align="center">
-    <img src="./images/block-diagram-editor.png" alt="Block Diagram Editor"/>
+    <img src="./images/block-diagram-editor.png" alt="Block Diagram Editor" width="50%" height="50%"/>
 </p>
 
 
