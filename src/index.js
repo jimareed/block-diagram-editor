@@ -5,9 +5,47 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
-ReactDOM.render(<App />, document.getElementById('root'));
+function Rectangle(x,y) {
+    this.x = x;
+    this.y = y;
+  };
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
+var diagram = {
+    blocks: [], 
+    blockWidth: 90,
+    blockHeight: 60 
+};
+
+diagram.blocks.push(new Rectangle(40,110));
+diagram.blocks.push(new Rectangle(220,40));
+diagram.blocks.push(new Rectangle(380,140));
+
+function update(e) {
+
+    if (e.eventType === "block") {
+        if (e.index >= 0 && e.index < diagram.blocks.length) {
+            diagram.blocks.splice(e.index,1);
+        }
+    } else if (e.eventType === "canvas") {
+        var x = e.x - diagram.blockWidth / 2;
+        if (x < 0) {
+          x = 0;
+        }
+        var y = e.y - diagram.blockHeight / 2;
+        if (y < 0) {
+          y = 0;
+        }
+
+        diagram.blocks.push(new Rectangle(x,y));
+    }
+
+    render();
+};
+
+const render = () =>  {
+    ReactDOM.render(<App diagram={diagram} update={update} />, document.getElementById('root'));
+} 
+
+render();
+
 serviceWorker.unregister();

@@ -8,7 +8,7 @@ class Editor extends Component {
     return (
       <div className="Editor">
         <Toolbar />
-        <Canvas />
+        <Canvas diagram={this.props.diagram} update={this.props.update} />
       </div>
     );
   }
