@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 
+const drawArrowHead = false
+
 class Arrow extends Component {
 
   slope(x1, y1, x2, y2) {
@@ -48,25 +50,37 @@ class Arrow extends Component {
     if (Math.abs(slope) <= this.slope(0,0,this.props.blockWidth,this.props.blockHeight)) {
       // right side
       if (this.props.p1.x < this.props.p2.x) {
-        x = this.props.p2.x -20;
+        x = this.props.p2.x;
+        if (drawArrowHead) {
+          x -= 20;
+        }
         y = this.props.p2.y + this.props.blockHeight / 2 - this.props.blockWidth / 2 * slope;
       }
       // left side
       else {
-        x = this.props.p2.x + this.props.blockWidth + 20;
+        x = this.props.p2.x + this.props.blockWidth;
+        if (drawArrowHead) {
+          x += 20;
+        }
         y = this.props.p2.y + this.props.blockHeight / 2 + this.props.blockWidth / 2 * slope;
       }
     } else {
       // top side
       if (this.props.p1.y > this.props.p2.y) {
         x = this.props.p2.x + this.props.blockWidth / 2 + (this.props.blockHeight / 2) / slope;
-        y = this.props.p2.y + this.props.blockHeight + 20;
-      }
+        y = this.props.p2.y + this.props.blockHeight;
+        if (drawArrowHead) {
+          y += 20;
+        }
+       }
       // botton side
       else {
         x = this.props.p2.x + this.props.blockWidth / 2 - (this.props.blockHeight / 2) / slope;
-        y = this.props.p2.y - 20;
-      }
+        y = this.props.p2.y;
+        if (drawArrowHead) {
+          y -= 20;
+        }
+       }
     }
 
     return ({
@@ -81,7 +95,8 @@ class Arrow extends Component {
     var p1 = this.calcP1(slope);
     var p2 = this.calcP2(slope);
 
-    return (
+    if (drawArrowHead) {
+      return (
         <>
           <defs>
             <marker id="arrowhead" markerWidth="5" markerHeight="3.5" refX="0" refY="1.75" orient="auto">
@@ -91,6 +106,13 @@ class Arrow extends Component {
           <line x1={p1.x} y1={p1.y} x2={p2.x} y2={p2.y} stroke="black" strokeWidth="4" marker-end="url(#arrowhead)" />
         </>
     )
+    } else {
+      return (
+        <>
+          <line x1={p1.x} y1={p1.y} x2={p2.x} y2={p2.y} stroke="black" strokeWidth="4" />
+        </>
+    )
+    }
   }
 }
 

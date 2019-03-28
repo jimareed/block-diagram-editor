@@ -6,10 +6,11 @@ WORKDIR /usr/src/app
 COPY package.json /usr/src/app/
 
 RUN npm install
+RUN npm install -g serve
 
 ADD src /usr/src/app/src
 ADD public /usr/src/app/public
 
-RUN npm build
+RUN npm run build
 
-CMD [ "npm", "start" ]
+CMD [ "serve", "-s", "build" ]
