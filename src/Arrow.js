@@ -17,27 +17,36 @@ class Arrow extends Component {
     var x = 0;
     var y = 0;
 
-    if (Math.abs(slope) <= this.slope(0,0,this.props.blockWidth,this.props.blockHeight)) {
-      // right side
-      if (this.props.p1.x < this.props.p2.x) {
-        x = this.props.p1.x + this.props.blockWidth;
-        y = this.props.p1.y + this.props.blockHeight / 2 + this.props.blockWidth / 2 * slope;
-      }
-      // left side
-      else {
-        x = this.props.p1.x;
-        y = this.props.p1.y + this.props.blockHeight / 2 - this.props.blockWidth / 2 * slope;
-      }
-    } else {
-      // top side
-      if (this.props.p1.y > this.props.p2.y) {
-        x = this.props.p1.x + this.props.blockWidth / 2 - (this.props.blockHeight / 2) / slope;
+    if (slope === Infinity|| slope === -Infinity) {
+      x = this.props.p1.x + this.props.blockWidth / 2;
+      if (this.props.p1.y < this.props.p2.y) {
+        y = this.props.p1.y + this.props.blockHeight;
+      } else {
         y = this.props.p1.y;
       }
-      // botton side
-      else {
-        x = this.props.p1.x + this.props.blockWidth / 2 + (this.props.blockHeight / 2) / slope;
-        y = this.props.p1.y + this.props.blockHeight;
+    } else {
+      if (Math.abs(slope) <= this.slope(0,0,this.props.blockWidth,this.props.blockHeight)) {
+        // right side
+        if (this.props.p1.x < this.props.p2.x) {
+          x = this.props.p1.x + this.props.blockWidth;
+          y = this.props.p1.y + this.props.blockHeight / 2 + this.props.blockWidth / 2 * slope;
+        }
+        // left side
+        else {
+          x = this.props.p1.x;
+          y = this.props.p1.y + this.props.blockHeight / 2 - this.props.blockWidth / 2 * slope;
+        }
+      } else {
+        // top side
+        if (this.props.p1.y > this.props.p2.y) {
+          x = this.props.p1.x + this.props.blockWidth / 2 - (this.props.blockHeight / 2) / slope;
+          y = this.props.p1.y;
+        }
+        // botton side
+        else {
+          x = this.props.p1.x + this.props.blockWidth / 2 + (this.props.blockHeight / 2) / slope;
+          y = this.props.p1.y + this.props.blockHeight;
+        }
       }
     }
 
@@ -51,54 +60,67 @@ class Arrow extends Component {
     var x = 0;
     var y = 0;
 
-    var arrowHeadX = this.arrowHeadX(slope);
-    var arrowHeadY = arrowHeadX * slope;
-
-    if (Math.abs(slope) <= this.slope(0,0,this.props.blockWidth,this.props.blockHeight)) {
-      // right side
-      if (this.props.p1.x < this.props.p2.x) {
-        x = this.props.p2.x;
-        y = this.props.p2.y + this.props.blockHeight / 2 - this.props.blockWidth / 2 * slope;
-
-        if (drawArrowHead) {
-          x -= arrowHeadX;
-          y -= arrowHeadY;
-        }
-      }
-      // left side
-      else {
-        x = this.props.p2.x + this.props.blockWidth;
-        y = this.props.p2.y + this.props.blockHeight / 2 + this.props.blockWidth / 2 * slope;
-        if (drawArrowHead) {
-          x += arrowHeadX;
-          y += arrowHeadY;
-        }
+    if (slope === Infinity|| slope === -Infinity) {
+      x = this.props.p2.x + this.props.blockWidth / 2;
+      if (this.props.p1.y < this.props.p2.y) {
+        y = this.props.p2.y - arrowHeadLength;
+      } else {
+        y = this.props.p2.y + this.props.blockHeight + arrowHeadLength;
       }
     } else {
-      // top side
-      if (this.props.p1.y > this.props.p2.y) {
-        x = this.props.p2.x + this.props.blockWidth / 2 + (this.props.blockHeight / 2) / slope;
-        y = this.props.p2.y + this.props.blockHeight;
-        if (drawArrowHead) {
-          if (this.props.p1.x < this.props.p2.x) {
-            arrowHeadX = arrowHeadX * -1;
+      var arrowHeadX = this.arrowHeadX(slope);
+      var arrowHeadY = arrowHeadX * slope;
+  
+      if (Math.abs(slope) <= this.slope(0,0,this.props.blockWidth,this.props.blockHeight)) {
+        // right side
+        if (this.props.p1.x < this.props.p2.x) {
+          x = this.props.p2.x;
+          y = this.props.p2.y + this.props.blockHeight / 2 - this.props.blockWidth / 2 * slope;
+  
+          if (drawArrowHead) {
+            x -= arrowHeadX;
+            y -= arrowHeadY;
           }
-          x += arrowHeadX
-          y += Math.abs(arrowHeadY);
+          console.log("right: " + arrowHeadX , "," + arrowHeadY + "slope:" + slope)
         }
-       }
-      // botton side
-      else {
-        x = this.props.p2.x + this.props.blockWidth / 2 - (this.props.blockHeight / 2) / slope;
-        y = this.props.p2.y;
-        if (drawArrowHead) {
-          if (this.props.p1.x < this.props.p2.x) {
-            arrowHeadX = arrowHeadX * -1;
+        // left side
+        else {
+          x = this.props.p2.x + this.props.blockWidth;
+          y = this.props.p2.y + this.props.blockHeight / 2 + this.props.blockWidth / 2 * slope;
+          if (drawArrowHead) {
+            x += arrowHeadX;
+            y += arrowHeadY;
           }
-          x += arrowHeadX;
-          y -= Math.abs(arrowHeadY);
+          console.log("left: " + arrowHeadX , "," + arrowHeadY + "slope:" + slope)
         }
-       }
+      } else {
+        // top side
+        if (this.props.p1.y > this.props.p2.y) {
+          x = this.props.p2.x + this.props.blockWidth / 2 + (this.props.blockHeight / 2) / slope;
+          y = this.props.p2.y + this.props.blockHeight;
+          if (drawArrowHead) {
+            if (this.props.p1.x < this.props.p2.x) {
+              arrowHeadX = arrowHeadX * -1;
+            }
+            x += arrowHeadX
+            y += Math.abs(arrowHeadY);
+          }
+          console.log("top: " + arrowHeadX , "," + arrowHeadY + "slope:" + slope)
+         }
+        // botton side
+        else {
+          x = this.props.p2.x + this.props.blockWidth / 2 - (this.props.blockHeight / 2) / slope;
+          y = this.props.p2.y;
+          if (drawArrowHead) {
+            if (this.props.p1.x < this.props.p2.x) {
+              arrowHeadX = arrowHeadX * -1;
+            }
+            x += arrowHeadX;
+            y -= Math.abs(arrowHeadY);
+          }
+          console.log("bottom: " + arrowHeadX , "," + arrowHeadY + "slope:" + slope)
+         }
+      }
     }
 
     return ({
@@ -122,7 +144,7 @@ class Arrow extends Component {
               <polygon points="0 0, 5 1.75 0 3.5" />
             </marker>
           </defs>
-          <line x1={p1.x} y1={p1.y} x2={p2.x} y2={p2.y} stroke="black" strokeWidth="4" marker-end="url(#arrowhead)" />
+          <line x1={p1.x} y1={p1.y} x2={p2.x} y2={p2.y} stroke="black" strokeWidth="4" markerEnd="url(#arrowhead)" />
         </>
     )
     } else {
