@@ -1,12 +1,17 @@
 import React, { Component } from 'react';
 
-const drawArrowHead = false
+const drawArrowHead = true
+const arrowHeadLength = 21
 
 class Arrow extends Component {
 
   slope(x1, y1, x2, y2) {
     return (y2 - y1) / (x2 - x1);
   };
+
+  arrowHeadX(slope) {
+    return arrowHeadLength / Math.sqrt(slope * slope + 1)
+  }
 
   calcP1(slope) {
     var x = 0;
@@ -15,7 +20,6 @@ class Arrow extends Component {
     if (Math.abs(slope) <= this.slope(0,0,this.props.blockWidth,this.props.blockHeight)) {
       // right side
       if (this.props.p1.x < this.props.p2.x) {
-        console.log("debug, slope=" + slope + " blockslope=" + this.slope(0,0,this.props.blockHeight,this.props.blockWidth));
         x = this.props.p1.x + this.props.blockWidth;
         y = this.props.p1.y + this.props.blockHeight / 2 + this.props.blockWidth / 2 * slope;
       }
@@ -47,22 +51,28 @@ class Arrow extends Component {
     var x = 0;
     var y = 0;
 
+    var arrowHeadX = this.arrowHeadX(slope);
+    var arrowHeadY = arrowHeadX * slope;
+
     if (Math.abs(slope) <= this.slope(0,0,this.props.blockWidth,this.props.blockHeight)) {
       // right side
       if (this.props.p1.x < this.props.p2.x) {
         x = this.props.p2.x;
-        if (drawArrowHead) {
-          x -= 20;
-        }
         y = this.props.p2.y + this.props.blockHeight / 2 - this.props.blockWidth / 2 * slope;
+
+        if (drawArrowHead) {
+          x -= arrowHeadX;
+          y -= arrowHeadY;
+        }
       }
       // left side
       else {
         x = this.props.p2.x + this.props.blockWidth;
-        if (drawArrowHead) {
-          x += 20;
-        }
         y = this.props.p2.y + this.props.blockHeight / 2 + this.props.blockWidth / 2 * slope;
+        if (drawArrowHead) {
+          x += arrowHeadX;
+          y += arrowHeadY;
+        }
       }
     } else {
       // top side
@@ -70,7 +80,11 @@ class Arrow extends Component {
         x = this.props.p2.x + this.props.blockWidth / 2 + (this.props.blockHeight / 2) / slope;
         y = this.props.p2.y + this.props.blockHeight;
         if (drawArrowHead) {
-          y += 20;
+          if (this.props.p1.x < this.props.p2.x) {
+            arrowHeadX = arrowHeadX * -1;
+          }
+          x += arrowHeadX
+          y += Math.abs(arrowHeadY);
         }
        }
       // botton side
@@ -78,7 +92,11 @@ class Arrow extends Component {
         x = this.props.p2.x + this.props.blockWidth / 2 - (this.props.blockHeight / 2) / slope;
         y = this.props.p2.y;
         if (drawArrowHead) {
-          y -= 20;
+          if (this.props.p1.x < this.props.p2.x) {
+            arrowHeadX = arrowHeadX * -1;
+          }
+          x += arrowHeadX;
+          y -= Math.abs(arrowHeadY);
         }
        }
     }
@@ -88,6 +106,7 @@ class Arrow extends Component {
       y: y
     })
   };
+
 
   render() {
     var slope = this.slope(this.props.p1.x, this.props.p1.y, this.props.p2.x, this.props.p2.y);
